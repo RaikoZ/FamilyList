@@ -8,15 +8,37 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
+
 public class CustomListAdapter extends ArrayAdapter<String> {
+    private Firebase mRef;
+
 
     private final Activity context;
     private final String[] itemname;
     private final Integer[] imgid;
 
-    public CustomListAdapter(Activity context, String[] itemname, Integer[] imgid) {
+    public CustomListAdapter(final Activity context, String[] itemname, Integer[] imgid) {
         super(context, R.layout.layout, itemname);
-        // TODO Auto-generated constructor stub
+        mRef = new Firebase("https://familylist2-0.firebaseio.com/");
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String newCondition = (String) dataSnapshot.getValue();
+                context.setContentView(Integer.parseInt(newCondition));
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
+
 
         this.context=context;
         this.itemname=itemname;
@@ -36,5 +58,5 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         extratxt.setText("Description "+itemname[position]);
         return rowView;
 
-    };
+    }
 }

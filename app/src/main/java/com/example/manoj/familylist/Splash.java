@@ -1,80 +1,62 @@
 package com.example.manoj.familylist;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
-import com.firebase.client.Firebase;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-
-public class MainActivity extends Activity {
-
-
-    ListView list;
-    String[] itemname = {
-            "Me(Manish Rath)",
-            "Me(Manish Rath)",
-            "New Family(GDG BBSR)",
-            "Manoj Rath(Father)",
-            "Anita Sarangi(Mother)",
-            "Sabyasachi Das(Brother)",
-            "Sushree Dash(Sister)",
-            "Amit Sarangi(Uncle)",
-            "Satyabadi Sarangi(Grand Father)",
-            "Surekha Sarangi(Grand Mother)"
-    };
-
-    Integer[] imgid = {
-            R.mipmap.me,
-            R.mipmap.me,
-            R.mipmap.gdg,
-            R.mipmap.father,
-            R.mipmap.mother,
-            R.mipmap.brother,
-            R.mipmap.sister,
-            R.mipmap.uncle,
-            R.mipmap.grandfather,
-            R.mipmap.grandmother
-    };
-
+/**
+ * Created by Manoj on 2/16/2016.
+ */
+public class Splash extends Activity {
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
     private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Firebase.setAndroidContext(this);
+        setContentView(R.layout.splash);
+
+        final ImageView iv = (ImageView) findViewById(R.id.imageView);
+        final Animation an = AnimationUtils.loadAnimation(getBaseContext(), R.anim.rotate);
+        final Animation an2 = AnimationUtils.loadAnimation(getBaseContext(), R.anim.abc_fade_out);
 
 
-        CustomListAdapter adapter = new CustomListAdapter(this, itemname, imgid);
-        list = (ListView) findViewById(R.id.list);
-        list.setAdapter(adapter);
+        iv.startAnimation(an);
+        an.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
 
-
-
-
-        list.setOnItemClickListener(new OnItemClickListener() {
+            }
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                // TODO Auto-generated method stub
-                String Slecteditem = itemname[+position];
-                Toast.makeText(getApplicationContext(), Slecteditem, Toast.LENGTH_SHORT).show();
+            public void onAnimationEnd(Animation animation) {
+                iv.startAnimation(an2);
+                finish();
+                Intent i = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(i);
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
 
             }
         });
 
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
@@ -82,10 +64,12 @@ public class MainActivity extends Activity {
     public void onStart() {
         super.onStart();
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
         Action viewAction = Action.newAction(
                 Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
+                "Splash Page", // TODO: Define a title for the content shown.
                 // TODO: If you have web page content that matches this app activity's content,
                 // make sure this auto-generated web page URL is correct.
                 // Otherwise, set the URL to null.
@@ -100,9 +84,11 @@ public class MainActivity extends Activity {
     public void onStop() {
         super.onStop();
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
         Action viewAction = Action.newAction(
                 Action.TYPE_VIEW, // TODO: choose an action type.
-                "Main Page", // TODO: Define a title for the content shown.
+                "Splash Page", // TODO: Define a title for the content shown.
                 // TODO: If you have web page content that matches this app activity's content,
                 // make sure this auto-generated web page URL is correct.
                 // Otherwise, set the URL to null.
