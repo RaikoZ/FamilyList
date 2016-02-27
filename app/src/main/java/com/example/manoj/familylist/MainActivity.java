@@ -20,16 +20,29 @@ public class MainActivity extends Activity {
 
     ListView list;
     String[] itemname = {
-            "Me(Manish Rath)",
-            "Me(Manish Rath)",
-            "New Family(GDG BBSR)",
-            "Manoj Rath(Father)",
-            "Anita Sarangi(Mother)",
-            "Sabyasachi Das(Brother)",
-            "Sushree Dash(Sister)",
-            "Amit Sarangi(Uncle)",
-            "Satyabadi Sarangi(Grand Father)",
-            "Surekha Sarangi(Grand Mother)"
+            "Me",
+            "Me",
+            "New Family",
+            "Manoj Rath",
+            "Anita Sarangi",
+            "Sabyasachi Dash",
+            "Sushree Dash",
+            "Amit Sarangi",
+            "Satyabadi Sarangi",
+            "Surekha Sarangi"
+    };
+    String [] itemrelation = {
+            "Manish Rath",
+            "Manish Rath",
+            "GDG BBSR",
+            "Father",
+            "Mother",
+            "Brother",
+            "Sister",
+            "Uncle",
+            "Grand Father",
+            "Grand Mother"
+
     };
 
     Integer[] imgid = {
@@ -54,7 +67,7 @@ public class MainActivity extends Activity {
         Firebase.setAndroidContext(this);
 
 
-        CustomListAdapter adapter = new CustomListAdapter(this, itemname, imgid);
+        CustomListAdapter adapter = new CustomListAdapter(this,itemrelation, itemname, imgid);
         list = (ListView) findViewById(R.id.list);
         list.setAdapter(adapter);
 

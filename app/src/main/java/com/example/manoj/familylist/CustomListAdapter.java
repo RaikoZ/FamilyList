@@ -12,51 +12,61 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 
 public class CustomListAdapter extends ArrayAdapter<String> {
-    private Firebase mRef;
 
 
     private final Activity context;
     private final String[] itemname;
+    private final String[] itemrelation;
     private final Integer[] imgid;
+    public Firebase myFirebaseRef;
 
-    public CustomListAdapter(final Activity context, String[] itemname, Integer[] imgid) {
+    public CustomListAdapter(final Activity context,String[] itemrelation, String[] itemname, Integer[] imgid) {
         super(context, R.layout.layout, itemname);
-        mRef = new Firebase("https://familylist2-0.firebaseio.com/");
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String newCondition = (String) dataSnapshot.getValue();
-                context.setContentView(Integer.parseInt(newCondition));
-            }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
+        this.context = context;
+        this.itemname = itemname;
+        this.imgid = imgid;
+        this.itemrelation = itemrelation;
 
-            }
-        });
+        Firebase.setAndroidContext(getContext());
+        myFirebaseRef = new Firebase("https://familylist2-0.firebaseio.com/");
 
 
-
-        this.context=context;
-        this.itemname=itemname;
-        this.imgid=imgid;
     }
 
-    public View getView(int position,View view,ViewGroup parent) {
-        LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.layout, null,true);
+    @Override
+    public View getView(final int position, View view, ViewGroup parent) {
+        LayoutInflater inflater = context.getLayoutInflater();
+        final View rowView = inflater.inflate(R.layout.layout, null, true);
 
-        TextView txtTitle = (TextView) rowView.findViewById(R.id.item);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-        TextView extratxt = (TextView) rowView.findViewById(R.id.textView1);
+        final TextView txtTitle = (TextView) rowView.findViewById(R.id.item);
+        final TextView txtRelation = (TextView) rowView.findViewById(R.id.relation1);
+        final ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+
 
         txtTitle.setText(itemname[position]);
+        txtRelation.setText(itemrelation[position]);
         imageView.setImageResource(imgid[position]);
-        extratxt.setText("Description "+itemname[position]);
-        return rowView;
 
+                myFirebaseRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        txtTitle.setText(String.valueOf(dataSnapshot.child("familylist2-0").child(String.valueOf(position)).child("Name").getValue()));
+                        Picasso.with(getContext()).load(String.valueOf(dataSnapshot.child("familylist2-0").child(String.valueOf(position)).child("Image").getValue())).into(imageView);
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
+        return rowView;
     }
 }
+

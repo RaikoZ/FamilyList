@@ -35,4 +35,5 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'com.firebase:firebase-client-android:2.4.1+'
+    compile "com.squareup.picasso:picasso:2.4.0"
 }
